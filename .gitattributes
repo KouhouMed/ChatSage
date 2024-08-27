@@ -1,6 +1,9 @@
 # Set default behavior to automatically normalize line endings
 * text=auto
 
+# Force the following filetypes to have unix eols, so Windows does not break them
+*.* text eol=lf
+
 # Explicitly declare text files you want to always be normalized and converted
 # to native line endings on checkout
 *.py text
@@ -9,7 +12,9 @@
 *.yml text
 *.yaml text
 *.json text
-*.ini text
+*.html text
+*.css text
+*.js text
 
 # Declare files that will always have CRLF line endings on checkout
 *.bat text eol=crlf
