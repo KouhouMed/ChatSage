@@ -13,7 +13,7 @@ def create_app(config_class=Config):
     chatbot = Chatbot()
 
     # Configure routes
-    configure_routes(app, chatbot)
+    configure_routes(app)
 
     return app
 

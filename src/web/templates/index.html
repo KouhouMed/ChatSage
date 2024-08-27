@@ -2,9 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatSage</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .chat-container {
+            height: calc(100vh - 200px);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4 text-center text-blue-600">ChatSage</h1>
 
+        <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+            <div class="chat-container overflow-y-auto mb-4" id="chatContainer">
+                <!-- Chat messages will be inserted here -->
+            </div>
+
+            <form id="chatForm" class="flex flex-col sm:flex-row gap-2">
+                <select id="modelSelect" class="border rounded p-2 flex-grow-0">
+                    <option value="gpt3">GPT-3</option>
+                    <option value="gpt4">GPT-4</option>
+                    <option value="claude">Claude</option>
+                    <option value="llama">LLaMA</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input type="text" id="userInput" placeholder="Type your message..." class="border rounded p-2 flex-grow">
+                <button type="submit" class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600">Send</button>
+            </form>
+        </div>
+
+        <div class="text-center">
+            <button id="clearHistory" class="bg-red-500 text-white rounded p-2 hover:bg-red-600">Clear History</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 </body>
 </html>
