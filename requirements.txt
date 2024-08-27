@@ -1,0 +1,44 @@
+# Web Framework
+Flask==3.0.2
+
+# WSGI HTTP Server
+gunicorn==21.2.0
+
+# API Requests
+requests==2.31.0
+
+# Natural Language Processing
+transformers==4.36.2
+torch==2.2.1
+
+# OpenAI API (for GPT-3 and GPT-4)
+openai==1.6.1
+
+# Anthropic API (for Claude)
+anthropic==0.7.8
+
+# Data Processing
+numpy==1.26.4
+pandas==2.2.1
+
+# Environment Management
+python-dotenv==1.0.1
+
+# Testing
+pytest==8.0.2
+
+# Linting and Formatting
+flake8==7.0.0
+black==24.2.0
+
+# API Documentation
+flasgger==0.9.7.1
+
+# Async Support
+aiohttp==3.9.3
+
+# Security
+Flask-Talisman==1.1.0
+
+# Logging
+structlog==24.1.0
