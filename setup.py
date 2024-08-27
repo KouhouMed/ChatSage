@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages
+import io
 
-with open("README.md", "r", encoding="utf-8") as fh:
+# Use io.open with explicit encoding
+with io.open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
@@ -32,6 +34,7 @@ setup(
             "pytest>=8.0.2",
             "flake8>=7.0.0",
             "black>=24.2.0",
+            "coverage>=7.4.1",
         ],
     },
     classifiers=[
