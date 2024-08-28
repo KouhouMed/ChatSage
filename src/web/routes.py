@@ -79,3 +79,4 @@ def internal_error(error):
 
 def configure_routes(app):
     app.register_blueprint(bp)
+
