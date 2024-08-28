@@ -5,7 +5,9 @@ import time
 
 bp = Blueprint("main", __name__)
 
+
 def rate_limit(limit_per_minute):
+
     def decorator(f):
         last_request_time = {}
         @wraps(f)
@@ -19,6 +21,7 @@ def rate_limit(limit_per_minute):
             return f(*args, **kwargs)
         return wrapped
     return decorator
+
 
 @bp.route("/")
 def index():
@@ -44,24 +47,29 @@ def chat():
         current_app.logger.error(f"Error processing chat request: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
 
+
 @bp.route("/api/history", methods=["GET"])
 def get_history():
     history = current_app.chatbot.get_chat_history()
     return jsonify({"history": history})
+
 
 @bp.route("/api/clear_history", methods=["POST"])
 def clear_history():
     current_app.chatbot.history.clear()
     return jsonify({"message": "Chat history cleared"})
 
+
 @bp.errorhandler(404)
 def not_found(error):
     return jsonify({"error": "Not found"}), 404
+
 
 @bp.errorhandler(500)
 def internal_error(error):
     current_app.logger.error(f"Internal server error: {str(error)}")
     return jsonify({"error": "Internal server error"}), 500
+
 
 def configure_routes(app):
     app.register_blueprint(bp)
