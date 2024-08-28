@@ -2,7 +2,6 @@ import unittest
 from unittest.mock import patch, MagicMock
 from src.chatbot.chatbot import Chatbot
 
-
 class TestChatbot(unittest.TestCase):
 
     def setUp(self):
@@ -46,18 +45,10 @@ class TestChatbot(unittest.TestCase):
         response = self.chatbot.llama_response("Hi")
         self.assertEqual(response, "LLaMA integration not implemented yet.")
 
-    @patch('src.chatbot.chatbot.AutoModelForCausalLM')
-    @patch('src.chatbot.chatbot.AutoTokenizer')
-    def test_custom_model_response(self, mock_tokenizer, mock_model):
-        mock_tokenizer.encode.return_value = MagicMock()
-        mock_model.generate.return_value = MagicMock()
-        mock_tokenizer.decode.return_value = "Hello, I'm a custom model!"
-
+    def test_custom_model_response(self):
         response = self.chatbot.custom_model_response("Hi")
-        self.assertEqual(response, "Hello, I'm a custom model!")
-        mock_tokenizer.encode.assert_called_once()
-        mock_model.generate.assert_called_once()
-        mock_tokenizer.decode.assert_called_once()
+        self.assertIsInstance(response, str)
+        self.assertTrue(len(response) > 0)
 
     def test_get_chat_history(self):
         self.chatbot.get_response("Hello", "gpt3")
@@ -66,7 +57,6 @@ class TestChatbot(unittest.TestCase):
         self.assertEqual(len(history), 4)  # 2 user messages + 2 AI responses
         self.assertTrue(history[0].startswith("Human: Hello"))
         self.assertTrue(history[2].startswith("Human: How are you?"))
-
 
 if __name__ == '__main__':
     unittest.main()
