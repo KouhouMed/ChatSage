@@ -19,8 +19,10 @@ class Chatbot:
         self.custom_tokenizer = AutoTokenizer.from_pretrained("gpt2")
         self.custom_model = AutoModelForCausalLM.from_pretrained("gpt2")
 
-        # Initialize OpenAI client
-        self.openai_client = openai.OpenAI()
+        # Initialize OpenAI client if API key is available
+        self.openai_client = None
+        if os.getenv("OPENAI_API_KEY"):
+            self.openai_client = openai.OpenAI()
 
     def get_response(self, message, model='gpt3'):
         if model not in self.models:
@@ -33,6 +35,8 @@ class Chatbot:
         return response
 
     def gpt3_response(self, message):
+        if not self.openai_client:
+            return "OpenAI API key not set. Unable to use GPT-3."
         try:
             response = self.openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -43,6 +47,8 @@ class Chatbot:
             return f"Error in GPT-3 response: {str(e)}"
 
     def gpt4_response(self, message):
+        if not self.openai_client:
+            return "OpenAI API key not set. Unable to use GPT-4."
         try:
             response = self.openai_client.chat.completions.create(
                 model="gpt-4",
