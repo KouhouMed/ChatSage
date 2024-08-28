@@ -44,7 +44,7 @@ ChatSage is a multi-model chatbot application that allows users to interact with
 
 1. Run the application:
    ```
-   python src/main.py
+   python run.py
    ```
 
 2. Open a web browser and navigate to `http://localhost:5000` to access the chat interface.
