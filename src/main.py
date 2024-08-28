@@ -6,9 +6,15 @@ from .web.routes import configure_routes
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__,
-                template_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), 'web', 'templates')),
-                static_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), 'web', 'static')))
+    app = Flask(
+        __name__,
+        template_folder=os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "web", "templates")
+        ),
+        static_folder=os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "web", "static")
+        ),
+    )
     app.config.from_object(config_class)
 
     # Initialize chatbot

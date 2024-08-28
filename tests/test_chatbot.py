@@ -11,41 +11,47 @@ class TestChatbot(unittest.TestCase):
     def test_chatbot_initialization(self):
         self.assertIsInstance(self.chatbot, Chatbot)
         self.assertEqual(len(self.chatbot.history), 0)
-        self.assertIn('gpt3', self.chatbot.models)
-        self.assertIn('gpt4', self.chatbot.models)
-        self.assertIn('claude', self.chatbot.models)
-        self.assertIn('llama', self.chatbot.models)
-        self.assertIn('custom', self.chatbot.models)
+        self.assertIn("gpt3", self.chatbot.models)
+        self.assertIn("gpt4", self.chatbot.models)
+        self.assertIn("claude", self.chatbot.models)
+        self.assertIn("llama", self.chatbot.models)
+        self.assertIn("custom", self.chatbot.models)
 
     def test_get_response_invalid_model(self):
         with self.assertRaises(ValueError):
             self.chatbot.get_response("Hello", "invalid_model")
 
-    @patch('src.chatbot.chatbot.openai.OpenAI')
+    @patch("src.chatbot.chatbot.openai.OpenAI")
     def test_gpt3_response(self, mock_openai):
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
-        mock_client.chat.completions.create.return_value.choices[0].message.content = "Hello, I'm GPT-3!"
+        mock_client.chat.completions.create.return_value.choices[0].message.content = (
+            "Hello, I'm GPT-3!"
+        )
 
         self.chatbot.openai_client = mock_client
         response = self.chatbot.gpt3_response("Hi")
         self.assertEqual(response, "Hello, I'm GPT-3!")
         mock_client.chat.completions.create.assert_called_once()
 
-    @patch('src.chatbot.chatbot.openai.OpenAI')
+    @patch("src.chatbot.chatbot.openai.OpenAI")
     def test_gpt4_response(self, mock_openai):
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
-        mock_client.chat.completions.create.return_value.choices[0].message.content = "Hello, I'm GPT-4!"
+        mock_client.chat.completions.create.return_value.choices[0].message.content = (
+            "Hello, I'm GPT-4!"
+        )
 
         self.chatbot.openai_client = mock_client
         response = self.chatbot.gpt4_response("Hi")
         self.assertEqual(response, "Hello, I'm GPT-4!")
         mock_client.chat.completions.create.assert_called_once()
 
-    @patch('src.chatbot.chatbot.Anthropic')
+    @patch("src.chatbot.chatbot.Anthropic")
     def test_claude_response(self, mock_anthropic):
-        mock_anthropic.return_value.completions.create.return_value.completion = "Hello, I'm Claude!"
+        mock_anthropic.return_value.completions.create.return_value.completion = (
+            "Hello, I'm Claude!"
+        )
         response = self.chatbot.claude_response("Hi")
         self.assertEqual(response, "Hello, I'm Claude!")
         mock_anthropic.return_value.completions.create.assert_called_once()
@@ -68,5 +74,5 @@ class TestChatbot(unittest.TestCase):
         self.assertTrue(history[2].startswith("Human: How are you?"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

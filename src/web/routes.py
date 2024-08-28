@@ -20,7 +20,9 @@ def rate_limit(limit_per_minute):
                     return jsonify({"error": "Rate limit exceeded"}), 429
             last_request_time[request.remote_addr] = now
             return f(*args, **kwargs)
+
         return wrapped
+
     return decorator
 
 
@@ -34,11 +36,11 @@ def index():
 @rate_limit(10)  # Limit to 10 requests per minute
 def chat():
     data = request.json
-    if not data or 'message' not in data:
+    if not data or "message" not in data:
         return jsonify({"error": "No message provided"}), 400
 
-    message = data['message']
-    model = data.get('model', current_app.config['DEFAULT_MODEL'])
+    message = data["message"]
+    model = data.get("model", current_app.config["DEFAULT_MODEL"])
 
     try:
         response = current_app.chatbot.get_response(message, model)

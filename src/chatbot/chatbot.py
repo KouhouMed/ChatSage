@@ -8,11 +8,11 @@ import torch
 class Chatbot:
     def __init__(self):
         self.models = {
-            'gpt3': self.gpt3_response,
-            'gpt4': self.gpt4_response,
-            'claude': self.claude_response,
-            'llama': self.llama_response,
-            'custom': self.custom_model_response
+            "gpt3": self.gpt3_response,
+            "gpt4": self.gpt4_response,
+            "claude": self.claude_response,
+            "llama": self.llama_response,
+            "custom": self.custom_model_response,
         }
         self.history = []
 
@@ -25,7 +25,7 @@ class Chatbot:
         if os.getenv("OPENAI_API_KEY"):
             self.openai_client = openai.OpenAI()
 
-    def get_response(self, message, model='gpt3'):
+    def get_response(self, message, model="gpt3"):
         if model not in self.models:
             raise ValueError(f"Model {model} not supported")
 
@@ -40,8 +40,7 @@ class Chatbot:
             return "OpenAI API key not set. Unable to use GPT-3."
         try:
             response = self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": message}]
+                model="gpt-3.5-turbo", messages=[{"role": "user", "content": message}]
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -52,8 +51,7 @@ class Chatbot:
             return "OpenAI API key not set. Unable to use GPT-4."
         try:
             response = self.openai_client.chat.completions.create(
-                model="gpt-4",
-                messages=[{"role": "user", "content": message}]
+                model="gpt-4", messages=[{"role": "user", "content": message}]
             )
             return response.choices[0].message.content
         except Exception as e:
