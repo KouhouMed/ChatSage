@@ -7,11 +7,11 @@ import torch
 class Chatbot:
     def __init__(self):
         self.models = {
-            "gpt3": self.gpt3_response,
-            "gpt4": self.gpt4_response,
-            "claude": self.claude_response,
-            "llama": self.llama_response,
-            "custom": self.custom_model_response,
+            'gpt3': self.gpt3_response,
+            'gpt4': self.gpt4_response,
+            'claude': self.claude_response,
+            'llama': self.llama_response,
+            'custom': self.custom_model_response
         }
         self.history = []
 
@@ -19,7 +19,10 @@ class Chatbot:
         self.custom_tokenizer = AutoTokenizer.from_pretrained("gpt2")
         self.custom_model = AutoModelForCausalLM.from_pretrained("gpt2")
 
-    def get_response(self, message, model="gpt3"):
+        # Initialize OpenAI client
+        self.openai_client = openai.OpenAI()
+
+    def get_response(self, message, model='gpt3'):
         if model not in self.models:
             raise ValueError(f"Model {model} not supported")
 
@@ -31,8 +34,9 @@ class Chatbot:
 
     def gpt3_response(self, message):
         try:
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo", messages=[{"role": "user", "content": message}]
+            response = self.openai_client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": message}]
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -40,8 +44,9 @@ class Chatbot:
 
     def gpt4_response(self, message):
         try:
-            response = openai.ChatCompletion.create(
-                model="gpt-4", messages=[{"role": "user", "content": message}]
+            response = self.openai_client.chat.completions.create(
+                model="gpt-4",
+                messages=[{"role": "user", "content": message}]
             )
             return response.choices[0].message.content
         except Exception as e:
