@@ -1,5 +1,6 @@
 # ChatSage
 
+
 ![ChatSage CI](https://github.com/KouhouMed/chatsage/workflows/ChatSage%20CI/badge.svg)
 [![codecov](https://codecov.io/gh/KouhouMed/chatsage/branch/main/graph/badge.svg)](https://codecov.io/gh/KouhouMed/chatsage)
 
