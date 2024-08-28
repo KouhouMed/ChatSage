@@ -6,7 +6,6 @@ import time
 # Create a Blueprint for our routes
 bp = Blueprint('main', __name__)
 
-
 def rate_limit(limit_per_minute):
     def decorator(f):
         last_request_time = {}
@@ -26,7 +25,6 @@ def rate_limit(limit_per_minute):
 @bp.route('/')
 def index():
     return render_template('index.html')
-
 
 @bp.route('/api/chat', methods=['POST'])
 @cross_origin()
@@ -79,4 +77,3 @@ def internal_error(error):
 
 def configure_routes(app):
     app.register_blueprint(bp)
-
