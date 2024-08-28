@@ -1,3 +1,4 @@
+import os
 import openai
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 from transformers import AutoTokenizer, AutoModelForCausalLM
