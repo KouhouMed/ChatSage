@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request, render_template, current_app
-from src.chatbot.chatbot import Chatbot
 from flask_cors import cross_origin
 from functools import wraps
 import time
@@ -7,8 +6,6 @@ import time
 # Create a Blueprint for our routes
 bp = Blueprint('main', __name__)
 
-# Initialize the Chatbot
-chatbot = Chatbot()
 
 def rate_limit(limit_per_minute):
     def decorator(f):
@@ -25,9 +22,11 @@ def rate_limit(limit_per_minute):
         return wrapped
     return decorator
 
+
 @bp.route('/')
 def index():
     return render_template('index.html')
+
 
 @bp.route('/api/chat', methods=['POST'])
 @cross_origin()
@@ -41,7 +40,7 @@ def chat():
     model = data.get('model', current_app.config['DEFAULT_MODEL'])
 
     try:
-        response = chatbot.get_response(message, model)
+        response = current_app.chatbot.get_response(message, model)
         return jsonify({"response": response})
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
@@ -49,28 +48,34 @@ def chat():
         current_app.logger.error(f"Error processing chat request: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
 
+
 @bp.route('/api/models', methods=['GET'])
 def get_models():
-    return jsonify({"models": list(chatbot.models.keys())})
+    return jsonify({"models": list(current_app.chatbot.models.keys())})
+
 
 @bp.route('/api/history', methods=['GET'])
 def get_history():
-    history = chatbot.get_chat_history()
+    history = current_app.chatbot.get_chat_history()
     return jsonify({"history": history})
+
 
 @bp.route('/api/clear_history', methods=['POST'])
 def clear_history():
-    chatbot.history.clear()
+    current_app.chatbot.history.clear()
     return jsonify({"message": "Chat history cleared"})
+
 
 @bp.errorhandler(404)
 def not_found(error):
     return jsonify({"error": "Not found"}), 404
 
+
 @bp.errorhandler(500)
 def internal_error(error):
     current_app.logger.error(f"Internal server error: {str(error)}")
     return jsonify({"error": "Internal server error"}), 500
+
 
 def configure_routes(app):
     app.register_blueprint(bp)

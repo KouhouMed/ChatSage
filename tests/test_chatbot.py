@@ -1,6 +1,7 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from src.chatbot.chatbot import Chatbot
+
 
 class TestChatbot(unittest.TestCase):
 
@@ -57,6 +58,7 @@ class TestChatbot(unittest.TestCase):
         self.assertEqual(len(history), 4)  # 2 user messages + 2 AI responses
         self.assertTrue(history[0].startswith("Human: Hello"))
         self.assertTrue(history[2].startswith("Human: How are you?"))
+
 
 if __name__ == '__main__':
     unittest.main()

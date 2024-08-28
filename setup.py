@@ -1,9 +1,9 @@
-from setuptools import setup, find_packages
 import io
+from setuptools import setup, find_packages
 
-# Use io.open with explicit encoding
-with io.open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+# Read the contents of your README file
+with io.open('README.md', encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
     name="chatsage",
@@ -13,7 +13,7 @@ setup(
     description="A multi-model chatbot application",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/chatsage",
+    url="https://github.com/KouhouMed/chatsage",
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,
     install_requires=[

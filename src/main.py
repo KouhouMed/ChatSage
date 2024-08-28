@@ -6,11 +6,11 @@ from src.web.routes import configure_routes
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__, static_folder='static', template_folder='templates')
+    app = Flask(__name__)
     app.config.from_object(config_class)
 
     # Initialize chatbot
-    chatbot = Chatbot()
+    app.chatbot = Chatbot()
 
     # Configure routes
     configure_routes(app)

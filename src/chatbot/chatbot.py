@@ -63,7 +63,6 @@ class Chatbot:
 
     def llama_response(self, message):
         # Placeholder for LLaMA integration
-        # This would require setting up access to Meta's LLaMA model
         return "LLaMA integration not implemented yet."
 
     def custom_model_response(self, message):
@@ -83,8 +82,11 @@ class Chatbot:
                     top_p=0.95
                 )
 
-            response = self.custom_tokenizer.decode(output[0], skip_special_tokens=True,
-                                                    clean_up_tokenization_spaces=True)
+            response = self.custom_tokenizer.decode(
+                output[0],
+                skip_special_tokens=True,
+                clean_up_tokenization_spaces=True
+            )
             return response
         except Exception as e:
             return f"Error in custom model response: {str(e)}"
