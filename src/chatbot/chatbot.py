@@ -7,11 +7,11 @@ import torch
 class Chatbot:
     def __init__(self):
         self.models = {
-            'gpt3': self.gpt3_response,
-            'gpt4': self.gpt4_response,
-            'claude': self.claude_response,
-            'llama': self.llama_response,
-            'custom': self.custom_model_response
+            "gpt3": self.gpt3_response,
+            "gpt4": self.gpt4_response,
+            "claude": self.claude_response,
+            "llama": self.llama_response,
+            "custom": self.custom_model_response,
         }
         self.history = []
 
@@ -19,7 +19,7 @@ class Chatbot:
         self.custom_tokenizer = AutoTokenizer.from_pretrained("gpt2")
         self.custom_model = AutoModelForCausalLM.from_pretrained("gpt2")
 
-    def get_response(self, message, model='gpt3'):
+    def get_response(self, message, model="gpt3"):
         if model not in self.models:
             raise ValueError(f"Model {model} not supported")
 
@@ -32,8 +32,7 @@ class Chatbot:
     def gpt3_response(self, message):
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": message}]
+                model="gpt-3.5-turbo", messages=[{"role": "user", "content": message}]
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -42,8 +41,7 @@ class Chatbot:
     def gpt4_response(self, message):
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[{"role": "user", "content": message}]
+                model="gpt-4", messages=[{"role": "user", "content": message}]
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -55,7 +53,7 @@ class Chatbot:
             response = anthropic.completions.create(
                 model="claude-2",
                 prompt=f"{HUMAN_PROMPT} {message} {AI_PROMPT}",
-                max_tokens_to_sample=300
+                max_tokens_to_sample=300,
             )
             return response.completion
         except Exception as e:
@@ -79,13 +77,11 @@ class Chatbot:
                     no_repeat_ngram_size=2,
                     do_sample=True,
                     temperature=0.7,
-                    top_p=0.95
+                    top_p=0.95,
                 )
 
             response = self.custom_tokenizer.decode(
-                output[0],
-                skip_special_tokens=True,
-                clean_up_tokenization_spaces=True
+                output[0], skip_special_tokens=True, clean_up_tokenization_spaces=True
             )
             return response
         except Exception as e:

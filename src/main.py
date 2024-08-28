@@ -21,24 +21,24 @@ def create_app(config_class=Config):
 def main():
     app = create_app()
 
-    @app.route('/api/chat', methods=['POST'])
+    @app.route("/api/chat", methods=["POST"])
     def chat():
         data = request.json
-        user_message = data.get('message')
-        model = data.get('model', 'gpt3')  # Default to GPT-3 if not specified
+        user_message = data.get("message")
+        model = data.get("model", "gpt3")  # Default to GPT-3 if not specified
 
         if not user_message:
-            return jsonify({'error': 'No message provided'}), 400
+            return jsonify({"error": "No message provided"}), 400
 
         try:
             response = app.chatbot.get_response(user_message, model)
-            return jsonify({'response': response})
+            return jsonify({"response": response})
         except Exception as e:
-            return jsonify({'error': str(e)}), 500
+            return jsonify({"error": str(e)}), 500
 
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
