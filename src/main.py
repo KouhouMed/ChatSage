@@ -1,12 +1,13 @@
 import os
 from flask import Flask, request, jsonify
-from src.chatbot.chatbot import Chatbot
-from src.config import Config
-from src.web.routes import configure_routes
-
+from .chatbot.chatbot import Chatbot
+from .config import Config
+from .web.routes import configure_routes
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(__name__,
+                template_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), 'web', 'templates')),
+                static_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), 'web', 'static')))
     app.config.from_object(config_class)
 
     # Initialize chatbot
@@ -16,7 +17,6 @@ def create_app(config_class=Config):
     configure_routes(app)
 
     return app
-
 
 def main():
     app = create_app()
@@ -38,7 +38,6 @@ def main():
 
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
-
 
 if __name__ == "__main__":
     main()
