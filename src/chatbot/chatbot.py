@@ -78,12 +78,13 @@ class Chatbot:
                     max_length=100,
                     num_return_sequences=1,
                     no_repeat_ngram_size=2,
-                    top_k=50,
-                    top_p=0.95,
-                    temperature=0.7
+                    do_sample=True,
+                    temperature=0.7,
+                    top_p=0.95
                 )
 
-            response = self.custom_tokenizer.decode(output[0], skip_special_tokens=True)
+            response = self.custom_tokenizer.decode(output[0], skip_special_tokens=True,
+                                                    clean_up_tokenization_spaces=True)
             return response
         except Exception as e:
             return f"Error in custom model response: {str(e)}"
