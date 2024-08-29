@@ -24,64 +24,78 @@
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        .about-section {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out;
-        }
-        .about-section.show {
-            max-height: 500px;
+        .chat-list {
+            max-height: calc(100vh - 300px);
+            overflow-y: auto;
         }
     </style>
 </head>
 <body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
-    <div class="container mx-auto p-4 max-w-4xl w-full">
+    <div class="container mx-auto p-4 max-w-6xl w-full">
         <h1 class="text-4xl font-bold mb-6 text-center text-white">ChatSage</h1>
 
-        <button id="aboutToggle" class="mb-4 bg-white text-blue-500 rounded p-2 hover:bg-blue-100 transition duration-300">
-            <i class="fas fa-info-circle mr-2"></i> About ChatSage
-        </button>
+        <div class="flex gap-4">
+            <!-- Chat list sidebar -->
+            <div class="w-1/4 bg-white rounded-lg shadow-lg p-4">
+                <h2 class="text-xl font-semibold mb-4">Chats</h2>
+                <button id="newChatBtn" class="w-full bg-green-500 text-white rounded p-2 mb-4 hover:bg-green-600 transition duration-300">
+                    <i class="fas fa-plus mr-2"></i> New Chat
+                </button>
+                <div id="chatList" class="chat-list">
+                    <!-- Chat list items will be inserted here -->
+                </div>
+            </div>
 
-        <div id="aboutSection" class="about-section bg-white rounded-lg shadow-lg overflow-hidden mb-4 p-4">
-            <h2 class="text-2xl font-bold mb-2">About ChatSage</h2>
-            <p class="mb-2">ChatSage is a multi-model chatbot application that allows users to interact with various language models including GPT-3, GPT-4, Claude, and custom models.</p>
-            <p>Features:</p>
-            <ul class="list-disc list-inside mb-2">
+            <!-- Main chat area -->
+            <div class="w-3/4 bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="chat-container overflow-y-auto p-4" id="chatContainer">
+                    <!-- Chat messages will be inserted here -->
+                </div>
+
+                <div class="p-4 border-t border-gray-200">
+                    <form id="chatForm" class="flex flex-col sm:flex-row gap-2">
+                        <select id="modelSelect" class="border rounded p-2 flex-grow-0 bg-gray-100">
+                            <option value="gpt3">GPT-3</option>
+                            <option value="gpt4">GPT-4</option>
+                            <option value="claude">Claude</option>
+                            <option value="llama">LLaMA</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                        <input type="text" id="userInput" placeholder="Type your message..." class="border rounded p-2 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button type="submit" class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600 transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-paper-plane mr-2"></i> Send
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4 flex justify-between items-center">
+            <button id="clearHistory" class="bg-red-500 text-white rounded p-2 hover:bg-red-600 transition duration-300">
+                <i class="fas fa-trash mr-2"></i> Clear History
+            </button>
+            <button id="aboutBtn" class="bg-yellow-500 text-white rounded p-2 hover:bg-yellow-600 transition duration-300">
+                <i class="fas fa-info-circle mr-2"></i> About
+            </button>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg max-w-2xl">
+            <h2 class="text-2xl font-semibold mb-4">About ChatSage</h2>
+            <p class="mb-4">ChatSage is a multi-model chatbot application that allows users to interact with various language models including GPT-3, GPT-4, Claude, and custom models.</p>
+            <h3 class="text-xl font-semibold mb-2">Features:</h3>
+            <ul class="list-disc list-inside mb-4">
                 <li>Support for multiple language models</li>
                 <li>Web-based chat interface</li>
                 <li>API endpoints for chat functionality</li>
                 <li>Configurable settings for different environments</li>
                 <li>Basic rate limiting</li>
                 <li>Chat history management</li>
+                <li>Multiple chat sessions</li>
             </ul>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div class="chat-container overflow-y-auto p-4" id="chatContainer">
-                <!-- Chat messages will be inserted here -->
-            </div>
-
-            <div class="p-4 border-t border-gray-200">
-                <form id="chatForm" class="flex flex-col sm:flex-row gap-2">
-                    <select id="modelSelect" class="border rounded p-2 flex-grow-0 bg-gray-100">
-                        <option value="gpt3">GPT-3</option>
-                        <option value="gpt4">GPT-4</option>
-                        <option value="claude">Claude</option>
-                        <option value="llama">LLaMA</option>
-                        <option value="custom">Custom</option>
-                    </select>
-                    <input type="text" id="userInput" placeholder="Type your message..." class="border rounded p-2 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <button type="submit" class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600 transition duration-300 flex items-center justify-center">
-                        <i class="fas fa-paper-plane mr-2"></i> Send
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <div class="text-center mt-4">
-            <button id="clearHistory" class="bg-red-500 text-white rounded p-2 hover:bg-red-600 transition duration-300">
-                <i class="fas fa-trash mr-2"></i> Clear History
-            </button>
+            <button id="closeAboutBtn" class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600 transition duration-300">Close</button>
         </div>
     </div>
 
@@ -92,19 +106,45 @@
             const chatContainer = document.getElementById('chatContainer');
             const modelSelect = document.getElementById('modelSelect');
             const clearHistoryBtn = document.getElementById('clearHistory');
-            const aboutToggle = document.getElementById('aboutToggle');
-            const aboutSection = document.getElementById('aboutSection');
+            const newChatBtn = document.getElementById('newChatBtn');
+            const chatList = document.getElementById('chatList');
+            const aboutBtn = document.getElementById('aboutBtn');
+            const aboutModal = document.getElementById('aboutModal');
+            const closeAboutBtn = document.getElementById('closeAboutBtn');
 
-            aboutToggle.addEventListener('click', () => {
-                aboutSection.classList.toggle('show');
-            });
+            let currentChatId = null;
+            let chats = {};
+
+            function createNewChat() {
+                const chatId = Date.now().toString();
+                const chatName = `Chat ${Object.keys(chats).length + 1}`;
+                chats[chatId] = { name: chatName, messages: [] };
+                addChatToList(chatId, chatName);
+                switchChat(chatId);
+            }
+
+            function addChatToList(chatId, chatName) {
+                const chatItem = document.createElement('div');
+                chatItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+                chatItem.textContent = chatName;
+                chatItem.onclick = () => switchChat(chatId);
+                chatList.appendChild(chatItem);
+            }
+
+            function switchChat(chatId) {
+                currentChatId = chatId;
+                chatContainer.innerHTML = '';
+                chats[chatId].messages.forEach(msg => addMessageToChat(msg.sender, msg.content));
+            }
+
+            newChatBtn.addEventListener('click', createNewChat);
 
             chatForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const message = userInput.value.trim();
                 const selectedModel = modelSelect.value;
 
-                if (message) {
+                if (message && currentChatId) {
                     addMessageToChat('You', message);
                     userInput.value = '';
 
@@ -116,7 +156,8 @@
                             },
                             body: JSON.stringify({
                                 message: message,
-                                model: selectedModel
+                                model: selectedModel,
+                                chat_id: currentChatId
                             }),
                         });
 
@@ -134,16 +175,25 @@
             });
 
             clearHistoryBtn.addEventListener('click', async () => {
-                try {
-                    const response = await fetch('/api/clear_history', { method: 'POST' });
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                if (currentChatId) {
+                    try {
+                        const response = await fetch('/api/clear_history', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ chat_id: currentChatId })
+                        });
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        chatContainer.innerHTML = '';
+                        chats[currentChatId].messages = [];
+                        addMessageToChat('System', 'Chat history cleared.');
+                    } catch (error) {
+                        console.error('Error clearing history:', error);
+                        addMessageToChat('System', 'Error clearing chat history.');
                     }
-                    chatContainer.innerHTML = '';
-                    addMessageToChat('System', 'Chat history cleared.');
-                } catch (error) {
-                    console.error('Error clearing history:', error);
-                    addMessageToChat('System', 'Error clearing chat history.');
                 }
             });
 
@@ -158,9 +208,12 @@
                 messageElement.appendChild(textElement);
                 chatContainer.appendChild(messageElement);
                 chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                if (currentChatId) {
+                    chats[currentChatId].messages.push({ sender, content: message });
+                }
             }
 
-            // Load chat history when the page loads
             async function loadChatHistory() {
                 try {
                     const response = await fetch('/api/history');
@@ -168,15 +221,29 @@
                         throw new Error('Network response was not ok');
                     }
                     const data = await response.json();
-                    data.history.forEach(message => {
-                        const [sender, content] = message.split(': ');
-                        addMessageToChat(sender, content);
-                    });
+                    if (data.chats && Object.keys(data.chats).length > 0) {
+                        chats = data.chats;
+                        Object.keys(chats).forEach(chatId => {
+                            addChatToList(chatId, chats[chatId].name);
+                        });
+                        switchChat(Object.keys(chats)[0]);
+                    } else {
+                        createNewChat();
+                    }
                 } catch (error) {
                     console.error('Error loading chat history:', error);
                     addMessageToChat('System', 'Error loading chat history.');
+                    createNewChat();
                 }
             }
+
+            aboutBtn.addEventListener('click', () => {
+                aboutModal.classList.remove('hidden');
+            });
+
+            closeAboutBtn.addEventListener('click', () => {
+                aboutModal.classList.add('hidden');
+            });
 
             loadChatHistory();
         });
