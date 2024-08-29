@@ -4,7 +4,6 @@ from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
-
 class Chatbot:
     def __init__(self):
         self.models = {
@@ -14,7 +13,7 @@ class Chatbot:
             "llama": self.llama_response,
             "custom": self.custom_model_response,
         }
-        self.history = []
+        self.chats = {"default": []}  # Initialize with a default chat
 
         # Initialize custom model (example with a small GPT-2 model)
         self.custom_tokenizer = AutoTokenizer.from_pretrained("gpt2")
@@ -25,13 +24,16 @@ class Chatbot:
         if os.getenv("OPENAI_API_KEY"):
             self.openai_client = openai.OpenAI()
 
-    def get_response(self, message, model="gpt3"):
+    def get_response(self, message, model="gpt3", chat_id="default"):
         if model not in self.models:
             raise ValueError(f"Model {model} not supported")
 
-        self.history.append(f"Human: {message}")
+        if chat_id not in self.chats:
+            self.chats[chat_id] = []
+
+        self.chats[chat_id].append(f"Human: {message}")
         response = self.models[model](message)
-        self.history.append(f"AI: {response}")
+        self.chats[chat_id].append(f"AI: {response}")
 
         return response
 
@@ -97,5 +99,14 @@ class Chatbot:
         except Exception as e:
             return f"Error in custom model response: {str(e)}"
 
-    def get_chat_history(self):
-        return self.history
+    def get_chat_history(self, chat_id="default"):
+        return self.chats.get(chat_id, [])
+
+    def get_all_chats(self):
+        return {chat_id: {"name": f"Chat {chat_id}", "messages": messages} for chat_id, messages in self.chats.items()}
+
+    def clear_chat_history(self, chat_id="default"):
+        if chat_id in self.chats:
+            self.chats[chat_id] = []
+        else:
+            raise ValueError(f"Chat {chat_id} not found")
