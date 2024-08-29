@@ -25,6 +25,10 @@ def rate_limit(limit_per_minute):
 
     return decorator
 
+@bp.route("/about")
+def about():
+    return render_template("about.html")
+
 
 @bp.route("/")
 def index():

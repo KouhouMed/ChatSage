@@ -24,11 +24,37 @@
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
+        .about-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .about-section.show {
+            max-height: 500px;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
     <div class="container mx-auto p-4 max-w-4xl w-full">
         <h1 class="text-4xl font-bold mb-6 text-center text-white">ChatSage</h1>
+
+        <button id="aboutToggle" class="mb-4 bg-white text-blue-500 rounded p-2 hover:bg-blue-100 transition duration-300">
+            <i class="fas fa-info-circle mr-2"></i> About ChatSage
+        </button>
+
+        <div id="aboutSection" class="about-section bg-white rounded-lg shadow-lg overflow-hidden mb-4 p-4">
+            <h2 class="text-2xl font-bold mb-2">About ChatSage</h2>
+            <p class="mb-2">ChatSage is a multi-model chatbot application that allows users to interact with various language models including GPT-3, GPT-4, Claude, and custom models.</p>
+            <p>Features:</p>
+            <ul class="list-disc list-inside mb-2">
+                <li>Support for multiple language models</li>
+                <li>Web-based chat interface</li>
+                <li>API endpoints for chat functionality</li>
+                <li>Configurable settings for different environments</li>
+                <li>Basic rate limiting</li>
+                <li>Chat history management</li>
+            </ul>
+        </div>
 
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <div class="chat-container overflow-y-auto p-4" id="chatContainer">
@@ -66,6 +92,12 @@
             const chatContainer = document.getElementById('chatContainer');
             const modelSelect = document.getElementById('modelSelect');
             const clearHistoryBtn = document.getElementById('clearHistory');
+            const aboutToggle = document.getElementById('aboutToggle');
+            const aboutSection = document.getElementById('aboutSection');
+
+            aboutToggle.addEventListener('click', () => {
+                aboutSection.classList.toggle('show');
+            });
 
             chatForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
