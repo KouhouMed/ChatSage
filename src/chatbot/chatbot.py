@@ -24,6 +24,11 @@ class Chatbot:
         if os.getenv("OPENAI_API_KEY"):
             self.openai_client = openai.OpenAI()
 
+        # Initialize Anthropic client if API key is available
+        self.anthropic_client = None
+        if os.getenv("ANTHROPIC_API_KEY"):
+            self.anthropic_client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
     def get_response(self, message, model="gpt3", chat_id="default"):
         if model not in self.models:
             raise ValueError(f"Model {model} not supported")
@@ -60,9 +65,10 @@ class Chatbot:
             return f"Error in GPT-4 response: {str(e)}"
 
     def claude_response(self, message):
+        if not self.anthropic_client:
+            return "Anthropic API key not set. Unable to use Claude."
         try:
-            anthropic = Anthropic()
-            response = anthropic.completions.create(
+            response = self.anthropic_client.completions.create(
                 model="claude-2",
                 prompt=f"{HUMAN_PROMPT} {message} {AI_PROMPT}",
                 max_tokens_to_sample=300,
