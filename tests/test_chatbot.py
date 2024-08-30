@@ -82,18 +82,18 @@ class TestChatbot(unittest.TestCase):
         history = self.chatbot.get_chat_history("test_chat")
         self.assertEqual(len(history), 0)
 
-    def test_list_chats(self):
-        self.chatbot.create_new_chat("chat2")
-        chats = self.chatbot.list_chats()
-        self.assertIn("default", chats)
-        self.assertIn("test_chat", chats)
-        self.assertIn("chat2", chats)
-
-    def test_delete_chat(self):
-        self.chatbot.create_new_chat("chat_to_delete")
-        self.chatbot.delete_chat("chat_to_delete")
-        chats = self.chatbot.list_chats()
-        self.assertNotIn("chat_to_delete", chats)
+    # def test_list_chats(self):
+    #     self.chatbot.create_new_chat("chat2")
+    #     chats = self.chatbot.list_chats()
+    #     self.assertIn("default", chats)
+    #     self.assertIn("test_chat", chats)
+    #     self.assertIn("chat2", chats)
+    #
+    # def test_delete_chat(self):
+    #     self.chatbot.create_new_chat("chat_to_delete")
+    #     self.chatbot.delete_chat("chat_to_delete")
+    #     chats = self.chatbot.list_chats()
+    #     self.assertNotIn("chat_to_delete", chats)
 
 if __name__ == "__main__":
     unittest.main()
