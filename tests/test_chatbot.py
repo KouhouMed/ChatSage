@@ -10,7 +10,8 @@ class TestChatbot(unittest.TestCase):
 
     def test_chatbot_initialization(self):
         self.assertIsInstance(self.chatbot, Chatbot)
-        self.assertEqual(len(self.chatbot.chats), 1)
+        self.assertIn("default", self.chatbot.chats)
+        self.assertIn("test_chat", self.chatbot.chats)
         self.assertIn("gpt3", self.chatbot.models)
         self.assertIn("gpt4", self.chatbot.models)
         self.assertIn("claude", self.chatbot.models)
@@ -22,7 +23,7 @@ class TestChatbot(unittest.TestCase):
             self.chatbot.get_response("Hello", "invalid_model", "test_chat")
 
     def test_get_response_invalid_chat(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(KeyError):
             self.chatbot.get_response("Hello", "gpt3", "invalid_chat")
 
     @patch("src.chatbot.chatbot.openai.OpenAI")
@@ -49,10 +50,14 @@ class TestChatbot(unittest.TestCase):
 
     @patch("src.chatbot.chatbot.Anthropic")
     def test_claude_response(self, mock_anthropic):
-        mock_anthropic.return_value.completions.create.return_value.completion = "Hello, I'm Claude!"
+        mock_client = MagicMock()
+        mock_anthropic.return_value = mock_client
+        mock_client.messages.create.return_value.content[0].text = "Hello, I'm Claude!"
+
+        self.chatbot.anthropic_client = mock_client
         response = self.chatbot.get_response("Hi", "claude", "test_chat")
         self.assertEqual(response, "Hello, I'm Claude!")
-        mock_anthropic.return_value.completions.create.assert_called_once()
+        mock_client.messages.create.assert_called_once()
 
     def test_llama_response(self):
         response = self.chatbot.get_response("Hi", "llama", "test_chat")
@@ -80,6 +85,7 @@ class TestChatbot(unittest.TestCase):
     def test_list_chats(self):
         self.chatbot.create_new_chat("chat2")
         chats = self.chatbot.list_chats()
+        self.assertIn("default", chats)
         self.assertIn("test_chat", chats)
         self.assertIn("chat2", chats)
 
