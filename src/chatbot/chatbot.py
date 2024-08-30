@@ -29,6 +29,12 @@ class Chatbot:
         if os.getenv("ANTHROPIC_API_KEY"):
             self.anthropic_client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
+    def create_new_chat(self, chat_id):
+        if chat_id not in self.chats:
+            self.chats[chat_id] = []
+        else:
+            raise ValueError(f"Chat {chat_id} already exists")
+
     def get_response(self, message, model="gpt3", chat_id="default"):
         if model not in self.models:
             raise ValueError(f"Model {model} not supported")
