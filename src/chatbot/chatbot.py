@@ -116,7 +116,10 @@ class Chatbot:
         return self.chats.get(chat_id, [])
 
     def get_all_chats(self):
-        return {chat_id: {"name": f"Chat {chat_id}", "messages": messages} for chat_id, messages in self.chats.items()}
+        return {
+            chat_id: {"name": f"Chat {chat_id}", "messages": messages}
+            for chat_id, messages in self.chats.items()
+        }
 
     def clear_chat_history(self, chat_id="default"):
         if chat_id in self.chats:

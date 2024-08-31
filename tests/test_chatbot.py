@@ -31,7 +31,9 @@ class TestChatbot(unittest.TestCase):
     def test_gpt3_response(self, mock_openai):
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
-        mock_client.chat.completions.create.return_value.choices[0].message.content = "Hello, I'm GPT-3!"
+        mock_client.chat.completions.create.return_value.choices[0].message.content = (
+            "Hello, I'm GPT-3!"
+        )
 
         self.chatbot.openai_client = mock_client
         response = self.chatbot.get_response("Hi", "gpt3", "test_chat")
@@ -42,7 +44,9 @@ class TestChatbot(unittest.TestCase):
     def test_gpt4_response(self, mock_openai):
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
-        mock_client.chat.completions.create.return_value.choices[0].message.content = "Hello, I'm GPT-4!"
+        mock_client.chat.completions.create.return_value.choices[0].message.content = (
+            "Hello, I'm GPT-4!"
+        )
 
         self.chatbot.openai_client = mock_client
         response = self.chatbot.get_response("Hi", "gpt4", "test_chat")

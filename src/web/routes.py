@@ -20,7 +20,9 @@ def rate_limit(limit_per_minute):
                     return jsonify({"error": "Rate limit exceeded"}), 429
             last_request_time[request.remote_addr] = now
             return f(*args, **kwargs)
+
         return wrapped
+
     return decorator
 
 
