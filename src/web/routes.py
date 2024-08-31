@@ -11,6 +11,7 @@ def rate_limit(limit_per_minute):
     def decorator(f):
         last_request_time = {}
         @wraps(f)
+
         def wrapped(*args, **kwargs):
             now = time.time()
             if request.remote_addr in last_request_time:
