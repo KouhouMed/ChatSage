@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 from src.chatbot.chatbot import Chatbot
 
+
 class TestChatbot(unittest.TestCase):
 
     def setUp(self):
@@ -94,6 +95,7 @@ class TestChatbot(unittest.TestCase):
     #     self.chatbot.delete_chat("chat_to_delete")
     #     chats = self.chatbot.list_chats()
     #     self.assertNotIn("chat_to_delete", chats)
+
 
 if __name__ == "__main__":
     unittest.main()

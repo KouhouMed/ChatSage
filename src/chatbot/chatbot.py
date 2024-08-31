@@ -4,6 +4,7 @@ from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
+
 class Chatbot:
     def __init__(self):
         self.models = {
