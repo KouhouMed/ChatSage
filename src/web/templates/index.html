@@ -8,37 +8,56 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .chat-message {
             animation: fadeIn 0.3s ease-out;
         }
+
         .chat-container {
             height: calc(100vh - 240px);
             background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
         }
+
         .glass-effect {
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
+
         .chat-list {
             max-height: calc(100vh - 300px);
             overflow-y: auto;
         }
     </style>
 </head>
-<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
-    <div class="container mx-auto p-4 max-w-6xl w-full">
-        <h1 class="text-4xl font-bold mb-6 text-center text-white">ChatSage</h1>
+<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex flex-col">
+<header class="bg-white shadow-md mb-6">
+    <div class="container mx-auto px-4 py-2">
+        <a href="/" class="block w-48">
+            <img src="https://raw.githubusercontent.com/KouhouMed/my-blog-v2/master/images/chatsage-logo.svg"
+                 alt="ChatSage Logo" class="w-full">
+        </a>
+    </div>
+</header>
 
+<div class="flex-grow flex items-center justify-center">
+    <div class="container mx-auto p-4 max-w-6xl w-full">
         <div class="flex gap-4">
             <!-- Chat list sidebar -->
             <div class="w-1/4 bg-white rounded-lg shadow-lg p-4">
                 <h2 class="text-xl font-semibold mb-4">Chats</h2>
-                <button id="newChatBtn" class="w-full bg-green-500 text-white rounded p-2 mb-4 hover:bg-green-600 transition duration-300">
+                <button id="newChatBtn"
+                        class="w-full bg-green-500 text-white rounded p-2 mb-4 hover:bg-green-600 transition duration-300">
                     <i class="fas fa-plus mr-2"></i> New Chat
                 </button>
                 <div id="chatList" class="chat-list">
@@ -61,8 +80,10 @@
                             <option value="llama">LLaMA</option>
                             <option value="custom">Custom</option>
                         </select>
-                        <input type="text" id="userInput" placeholder="Type your message..." class="border rounded p-2 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <button type="submit" class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600 transition duration-300 flex items-center justify-center">
+                        <input type="text" id="userInput" placeholder="Type your message..."
+                               class="border rounded p-2 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button type="submit"
+                                class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600 transition duration-300 flex items-center justify-center">
                             <i class="fas fa-paper-plane mr-2"></i> Send
                         </button>
                     </form>
@@ -71,182 +92,188 @@
         </div>
 
         <div class="text-center mt-4 flex justify-between items-center">
-            <button id="clearHistory" class="bg-red-500 text-white rounded p-2 hover:bg-red-600 transition duration-300">
+            <button id="clearHistory"
+                    class="bg-red-500 text-white rounded p-2 hover:bg-red-600 transition duration-300">
                 <i class="fas fa-trash mr-2"></i> Clear History
             </button>
-            <button id="aboutBtn" class="bg-yellow-500 text-white rounded p-2 hover:bg-yellow-600 transition duration-300">
+            <button id="aboutBtn"
+                    class="bg-yellow-500 text-white rounded p-2 hover:bg-yellow-600 transition duration-300">
                 <i class="fas fa-info-circle mr-2"></i> About
             </button>
         </div>
     </div>
+</div>
 
-    <!-- About Modal -->
-    <div id="aboutModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
-        <div class="bg-white p-8 rounded-lg max-w-2xl">
-            <h2 class="text-2xl font-semibold mb-4">About ChatSage</h2>
-            <p class="mb-4">ChatSage is a multi-model chatbot application that allows users to interact with various language models including GPT-3, GPT-4, Claude, and custom models.</p>
-            <h3 class="text-xl font-semibold mb-2">Features:</h3>
-            <ul class="list-disc list-inside mb-4">
-                <li>Support for multiple language models</li>
-                <li>Web-based chat interface</li>
-                <li>API endpoints for chat functionality</li>
-                <li>Configurable settings for different environments</li>
-                <li>Basic rate limiting</li>
-                <li>Chat history management</li>
-                <li>Multiple chat sessions</li>
-            </ul>
-            <button id="closeAboutBtn" class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600 transition duration-300">Close</button>
-        </div>
+<!-- About Modal -->
+<div id="aboutModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg max-w-2xl">
+        <h2 class="text-2xl font-semibold mb-4">About ChatSage</h2>
+        <p class="mb-4">ChatSage is a multi-model chatbot application that allows users to interact with various
+            language models including GPT-3, GPT-4, Claude, and custom models.</p>
+        <h3 class="text-xl font-semibold mb-2">Features:</h3>
+        <ul class="list-disc list-inside mb-4">
+            <li>Support for multiple language models</li>
+            <li>Web-based chat interface</li>
+            <li>API endpoints for chat functionality</li>
+            <li>Configurable settings for different environments</li>
+            <li>Basic rate limiting</li>
+            <li>Chat history management</li>
+            <li>Multiple chat sessions</li>
+        </ul>
+        <button id="closeAboutBtn" class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600 transition duration-300">
+            Close
+        </button>
     </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const chatForm = document.getElementById('chatForm');
-            const userInput = document.getElementById('userInput');
-            const chatContainer = document.getElementById('chatContainer');
-            const modelSelect = document.getElementById('modelSelect');
-            const clearHistoryBtn = document.getElementById('clearHistory');
-            const newChatBtn = document.getElementById('newChatBtn');
-            const chatList = document.getElementById('chatList');
-            const aboutBtn = document.getElementById('aboutBtn');
-            const aboutModal = document.getElementById('aboutModal');
-            const closeAboutBtn = document.getElementById('closeAboutBtn');
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const chatForm = document.getElementById('chatForm');
+        const userInput = document.getElementById('userInput');
+        const chatContainer = document.getElementById('chatContainer');
+        const modelSelect = document.getElementById('modelSelect');
+        const clearHistoryBtn = document.getElementById('clearHistory');
+        const newChatBtn = document.getElementById('newChatBtn');
+        const chatList = document.getElementById('chatList');
+        const aboutBtn = document.getElementById('aboutBtn');
+        const aboutModal = document.getElementById('aboutModal');
+        const closeAboutBtn = document.getElementById('closeAboutBtn');
 
-            let currentChatId = null;
-            let chats = {};
+        let currentChatId = null;
+        let chats = {};
 
-            function createNewChat() {
-                const chatId = Date.now().toString();
-                const chatName = `Chat ${Object.keys(chats).length + 1}`;
-                chats[chatId] = { name: chatName, messages: [] };
-                addChatToList(chatId, chatName);
-                switchChat(chatId);
-            }
+        function createNewChat() {
+            const chatId = Date.now().toString();
+            const chatName = `Chat ${Object.keys(chats).length + 1}`;
+            chats[chatId] = {name: chatName, messages: []};
+            addChatToList(chatId, chatName);
+            switchChat(chatId);
+        }
 
-            function addChatToList(chatId, chatName) {
-                const chatItem = document.createElement('div');
-                chatItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
-                chatItem.textContent = chatName;
-                chatItem.onclick = () => switchChat(chatId);
-                chatList.appendChild(chatItem);
-            }
+        function addChatToList(chatId, chatName) {
+            const chatItem = document.createElement('div');
+            chatItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+            chatItem.textContent = chatName;
+            chatItem.onclick = () => switchChat(chatId);
+            chatList.appendChild(chatItem);
+        }
 
-            function switchChat(chatId) {
-                currentChatId = chatId;
-                chatContainer.innerHTML = '';
-                chats[chatId].messages.forEach(msg => addMessageToChat(msg.sender, msg.content));
-            }
+        function switchChat(chatId) {
+            currentChatId = chatId;
+            chatContainer.innerHTML = '';
+            chats[chatId].messages.forEach(msg => addMessageToChat(msg.sender, msg.content));
+        }
 
-            newChatBtn.addEventListener('click', createNewChat);
+        newChatBtn.addEventListener('click', createNewChat);
 
-            chatForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const message = userInput.value.trim();
-                const selectedModel = modelSelect.value;
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            const selectedModel = modelSelect.value;
 
-                if (message && currentChatId) {
-                    addMessageToChat('You', message);
-                    userInput.value = '';
+            if (message && currentChatId) {
+                addMessageToChat('You', message);
+                userInput.value = '';
 
-                    try {
-                        const response = await fetch('/api/chat', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                message: message,
-                                model: selectedModel,
-                                chat_id: currentChatId
-                            }),
-                        });
-
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-
-                        const data = await response.json();
-                        addMessageToChat('ChatSage', data.response);
-                    } catch (error) {
-                        console.error('Error:', error);
-                        addMessageToChat('ChatSage', 'Sorry, an error occurred. Please try again.');
-                    }
-                }
-            });
-
-            clearHistoryBtn.addEventListener('click', async () => {
-                if (currentChatId) {
-                    try {
-                        const response = await fetch('/api/clear_history', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ chat_id: currentChatId })
-                        });
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        chatContainer.innerHTML = '';
-                        chats[currentChatId].messages = [];
-                        addMessageToChat('System', 'Chat history cleared.');
-                    } catch (error) {
-                        console.error('Error clearing history:', error);
-                        addMessageToChat('System', 'Error clearing chat history.');
-                    }
-                }
-            });
-
-            function addMessageToChat(sender, message) {
-                const messageElement = document.createElement('div');
-                messageElement.className = `chat-message mb-4 ${sender === 'You' ? 'text-right' : 'text-left'}`;
-
-                const textElement = document.createElement('span');
-                textElement.className = `inline-block p-3 rounded-lg ${sender === 'You' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'} glass-effect`;
-                textElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
-
-                messageElement.appendChild(textElement);
-                chatContainer.appendChild(messageElement);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-
-                if (currentChatId) {
-                    chats[currentChatId].messages.push({ sender, content: message });
-                }
-            }
-
-            async function loadChatHistory() {
                 try {
-                    const response = await fetch('/api/history');
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            model: selectedModel,
+                            chat_id: currentChatId
+                        }),
+                    });
+
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
+
                     const data = await response.json();
-                    if (data.chats && Object.keys(data.chats).length > 0) {
-                        chats = data.chats;
-                        Object.keys(chats).forEach(chatId => {
-                            addChatToList(chatId, chats[chatId].name);
-                        });
-                        switchChat(Object.keys(chats)[0]);
-                    } else {
-                        createNewChat();
-                    }
+                    addMessageToChat('ChatSage', data.response);
                 } catch (error) {
-                    console.error('Error loading chat history:', error);
-                    addMessageToChat('System', 'Error loading chat history.');
-                    createNewChat();
+                    console.error('Error:', error);
+                    addMessageToChat('ChatSage', 'Sorry, an error occurred. Please try again.');
                 }
             }
-
-            aboutBtn.addEventListener('click', () => {
-                aboutModal.classList.remove('hidden');
-            });
-
-            closeAboutBtn.addEventListener('click', () => {
-                aboutModal.classList.add('hidden');
-            });
-
-            loadChatHistory();
         });
-    </script>
+
+        clearHistoryBtn.addEventListener('click', async () => {
+            if (currentChatId) {
+                try {
+                    const response = await fetch('/api/clear_history', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({chat_id: currentChatId})
+                    });
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    chatContainer.innerHTML = '';
+                    chats[currentChatId].messages = [];
+                    addMessageToChat('System', 'Chat history cleared.');
+                } catch (error) {
+                    console.error('Error clearing history:', error);
+                    addMessageToChat('System', 'Error clearing chat history.');
+                }
+            }
+        });
+
+        function addMessageToChat(sender, message) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `chat-message mb-4 ${sender === 'You' ? 'text-right' : 'text-left'}`;
+
+            const textElement = document.createElement('span');
+            textElement.className = `inline-block p-3 rounded-lg ${sender === 'You' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'} glass-effect`;
+            textElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+
+            messageElement.appendChild(textElement);
+            chatContainer.appendChild(messageElement);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            if (currentChatId) {
+                chats[currentChatId].messages.push({sender, content: message});
+            }
+        }
+
+        async function loadChatHistory() {
+            try {
+                const response = await fetch('/api/history');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                if (data.chats && Object.keys(data.chats).length > 0) {
+                    chats = data.chats;
+                    Object.keys(chats).forEach(chatId => {
+                        addChatToList(chatId, chats[chatId].name);
+                    });
+                    switchChat(Object.keys(chats)[0]);
+                } else {
+                    createNewChat();
+                }
+            } catch (error) {
+                console.error('Error loading chat history:', error);
+                addMessageToChat('System', 'Error loading chat history.');
+                createNewChat();
+            }
+        }
+
+        aboutBtn.addEventListener('click', () => {
+            aboutModal.classList.remove('hidden');
+        });
+
+        closeAboutBtn.addEventListener('click', () => {
+            aboutModal.classList.add('hidden');
+        });
+
+        loadChatHistory();
+    });
+</script>
 </body>
 </html>
