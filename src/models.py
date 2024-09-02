@@ -22,3 +22,10 @@ class Chat(db.Model):
     name = db.Column(db.String(64))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     messages = db.relationship('Message', backref='chat', lazy='dynamic')
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=db.func.now())
+    chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'))
+    is_user = db.Column(db.Boolean, default=True)
