@@ -17,3 +17,4 @@ class RegistrationForm(FlaskForm):
         "Repeat Password", validators=[DataRequired(), EqualTo("password")]
     )
     submit = SubmitField("Register")
+
