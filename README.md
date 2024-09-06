@@ -21,8 +21,8 @@ ChatSage is a multi-model chatbot application that allows users to interact with
 
 1. Clone the repository:
    ```
-   git clone https://github.com/KouhouMed/chatsage.git
-   cd chatsage
+   git clone https://github.com/KouhouMed/ChatSage
+   cd ChatSage
    ```
 
 2. Create a virtual environment and activate it:
